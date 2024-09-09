@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./../../shared/ui/layouts/main";
 
+import { PostsListPage } from "../../pages/posts-list-page";
+
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -8,7 +10,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <>Main Page</>
+                element: <PostsListPage />
             },
             
             {
