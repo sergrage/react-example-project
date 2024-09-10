@@ -1,6 +1,6 @@
 import db from '../firebase-client'
 import { PostType } from './model'
-import { collection, doc, getDocs, addDoc } from 'firebase/firestore'
+import { collection, getDocs, addDoc } from 'firebase/firestore'
 
 export const getPosts = async () => {
   return await getDocs(collection(db, 'posts'))
