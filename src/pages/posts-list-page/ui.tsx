@@ -1,26 +1,26 @@
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 
-import {PostTable, PostForm,  postModel } from "../../entities/post";
+import { PostTable, PostForm, postModel } from "../../entities/post";
 
 export const PostsListPage = observer(() => {
-    const { store: { getPostsList, postList } } = postModel;
+  const {
+    store: { getPostsList, postList },
+  } = postModel;
 
-    useEffect(() => {
-        getPostsList();
-    }, []);
+  useEffect(() => {
+    getPostsList();
+  }, [getPostsList]);
 
-    return (
-        <>
-            <h2>Main Page</h2>
+  return (
+    <>
+      <h2>Main Page</h2>
 
-            <PostForm />
+      <PostForm />
 
-            <hr />
+      <hr />
 
-            <PostTable className="mt-3" postList={postList}/>
-        </>
-
-    )
-})
-
+      <PostTable className="mt-3" postList={postList} />
+    </>
+  );
+});

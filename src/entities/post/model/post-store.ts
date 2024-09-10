@@ -3,74 +3,72 @@ import { PostType } from "../../../shared/api/posts/model";
 import { getPosts } from "../../../shared/api/posts";
 
 class PostStore {
-    postList: PostType[] = [];
-    post?: PostType;
+  postList: PostType[] = [];
+  post?: PostType;
 
-    isLoading: boolean = false;
+  isLoading: boolean = false;
 
-    error = '';
+  error = "";
 
-    constructor() {
-        makeAutoObservable(this);
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  getPostsList = async () => {
+    try {
+      this.isLoading = true;
+
+      const data = await getPosts();
+
+      runInAction(() => {
+        this.isLoading = false;
+        this.postList = [];
+        data.forEach(item => {
+          this.postList.push(item.data() as PostType);
+        });
+      });
+    } catch (err) {
+      runInAction(() => {
+        this.isLoading = false;
+        this.error = (err as Error)?.message;
+      });
     }
+  };
 
-    getPostsList = async() => {
-        try {
-            this.isLoading = true;
+  // getTaskById = async (id: number) => {
+  //     try {
+  //         this.isLoading = true;
+  //         const data = await getTodoById(id);
 
-            const data = await getPosts();
+  //         runInAction(() => {
+  //             this.isLoading = false;
+  //             this.post = data;
+  //         })
 
-            runInAction(() => {
-                this.isLoading = false;
-                this.postList = [];
-                data.forEach((item) => {
-                    this.postList.push(item.data() as PostType);
-               })
-            })
+  //     } catch (err) {
+  //         runInAction(() => {
+  //             this.isLoading = false;
+  //             this.error = (err as Error)?.message;
+  //         })
+  //     }
+  // }
 
-        } catch (err) {
-            runInAction(() => {
-                this.isLoading = false;
-                this.error = (err as Error)?.message;
-            })
-        }
-    }
+  // updateTodoItem = async(todo: PostType) => {
+  //     try {
+  //         // this.isLoading = true;
+  //         await updateTodo(todo);
 
-    // getTaskById = async (id: number) => {
-    //     try {
-    //         this.isLoading = true;
-    //         const data = await getTodoById(id);
+  //         runInAction(() => {
+  //             // this.isLoading = false;
+  //         })
 
-    //         runInAction(() => {
-    //             this.isLoading = false;
-    //             this.post = data;
-    //         })
-
-    //     } catch (err) {
-    //         runInAction(() => {
-    //             this.isLoading = false;
-    //             this.error = (err as Error)?.message;
-    //         })
-    //     }
-    // }
-
-    // updateTodoItem = async(todo: PostType) => {
-    //     try {
-    //         // this.isLoading = true;
-    //         await updateTodo(todo);
-
-            
-    //         runInAction(() => {
-    //             // this.isLoading = false;
-    //         })
-
-    //     } catch (err) {
-    //         runInAction(() => {
-    //             // this.isLoading = false;
-    //             this.error = (err as Error)?.message;
-    //         })
-    //     }
-    // }
+  //     } catch (err) {
+  //         runInAction(() => {
+  //             // this.isLoading = false;
+  //             this.error = (err as Error)?.message;
+  //         })
+  //     }
+  // }
 }
 
-export const store = new PostStore;
+export const store = new PostStore();
