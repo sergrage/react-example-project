@@ -1,1 +1,1 @@
-export * from "./post-store.ts";
+export * from './post-store.ts'

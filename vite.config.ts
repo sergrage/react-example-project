@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import { resolve } from "path";
-import react from "@vitejs/plugin-react-swc";
-import { fileURLToPath } from "url";
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+import react from '@vitejs/plugin-react-swc'
+import { fileURLToPath } from 'url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,10 +13,10 @@ export default defineConfig({
     // },
     alias: [
       {
-        find: "@",
-        replacement: fileURLToPath(new URL("./src", import.meta.url)),
+        find: '@',
+        replacement: fileURLToPath(new URL('./src', import.meta.url)),
       },
-      { find: "$", replacement: resolve(__dirname, "node_modules") },
+      { find: '$', replacement: resolve(__dirname, 'node_modules') },
     ],
   },
-});
+})

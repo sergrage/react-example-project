@@ -1,11 +1,11 @@
-import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "./../../shared/ui/layouts/main";
+import { createBrowserRouter } from 'react-router-dom'
+import MainLayout from './../../shared/ui/layouts/main'
 
-import { PostsListPage } from "../../pages/posts-list-page";
+import { PostsListPage } from '../../pages/posts-list-page'
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <MainLayout />,
     children: [
       {
@@ -14,9 +14,9 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: ":id",
+        path: ':id',
         element: <>todo by id</>,
       },
     ],
   },
-]);
+])

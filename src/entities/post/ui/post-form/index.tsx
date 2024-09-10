@@ -1,7 +1,7 @@
 // import {FC} from "react";
 // import { TodoType } from "../../../../shared/api/posts/model";
-import { MouseEvent } from "react";
-import { createPost } from "../../../../shared/api/posts";
+import { MouseEvent } from 'react'
+import { createPost } from '../../../../shared/api/posts'
 
 // type Props = {
 //     todo: TodoType
@@ -9,18 +9,18 @@ import { createPost } from "../../../../shared/api/posts";
 
 export const PostForm = () => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
+    event.preventDefault()
     createPost({
       id: 3,
       title: 'title3',
-      post: "description3",
-      image: "image3",
-    });
-  };
+      post: 'description3',
+      image: 'image3',
+    })
+  }
 
   return (
     <form>
-      <div className='mb-3'>
+      <div className="mb-3">
         <input
           type="text"
           className="form-control"
@@ -43,5 +43,5 @@ export const PostForm = () => {
         Добавить статью
       </button>
     </form>
-  );
-};
+  )
+}

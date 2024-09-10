@@ -1,5 +1,5 @@
-import ky from "ky";
+import ky from 'ky'
 
 export const httpClient = ky.create({
-  prefixUrl: "https://jsonplaceholder.typicode.com",
-});
+  prefixUrl: 'https://jsonplaceholder.typicode.com',
+})

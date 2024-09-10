@@ -1,2 +1,2 @@
-export * from "./ui";
-export * as postModel from "./model";
+export * from './ui'
+export * as postModel from './model'

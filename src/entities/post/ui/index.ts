@@ -1,2 +1,2 @@
-export * from "./post-table";
-export * from "./post-form";
+export * from './post-table'
+export * from './post-form'

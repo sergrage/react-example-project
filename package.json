@@ -11,6 +11,11 @@
     "preview": "vite preview",
     "prepare": "husky"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all lint format"
+    }
+  },
   "dependencies": {
     "bootstrap": "^5.3.3",
     "firebase": "^10.13.1",
