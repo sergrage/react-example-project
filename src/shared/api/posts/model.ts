@@ -3,12 +3,6 @@ export type PostType = {
   title: string,
   image: string,
   post: string,
-  crated_at: {
-    seconds: number,
-    nanoseconds: number,
-  },
-  updated_at: {
-    seconds: number,
-    nanoseconds: number,
-  },
+  created_at: number,
+  updated_at: number | null,
 }
