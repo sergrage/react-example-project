@@ -1,41 +1,41 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import { PostType } from "../../../shared/api/posts/model";
-import { getPosts } from "../../../shared/api/posts";
+import { makeAutoObservable, runInAction } from 'mobx'
+import { PostType } from '../../../shared/api/posts/model'
+import { getPosts } from '../../../shared/api/posts'
 
 class PostStore {
-  postList: PostType[] = [];
-  post: PostType | undefined;
+  postList: PostType[] = []
+  post: PostType | undefined
 
-  isLoading: boolean = false;
+  isLoading: boolean = false
 
-  error = "";
+  error = ''
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   getPostsList = async () => {
     try {
-      this.isLoading = true;
+      this.isLoading = true
 
-      const data = await getPosts();
+      const data = await getPosts()
 
       runInAction(() => {
-        this.isLoading = false;
-        this.postList = [];
-        data.forEach(item => {
-          const document = {...item.data()}
-          document['doc_id'] = item.id;
-          this.postList.push(document as PostType);
-        });
-      });
+        this.isLoading = false
+        this.postList = []
+        data.forEach((item) => {
+          const document = { ...item.data() }
+          document['doc_id'] = item.id
+          this.postList.push(document as PostType)
+        })
+      })
     } catch (err) {
       runInAction(() => {
-        this.isLoading = false;
-        this.error = (err as Error)?.message;
-      });
+        this.isLoading = false
+        this.error = (err as Error)?.message
+      })
     }
-  };
+  }
 
   // getTaskById = async (id: number) => {
   //     try {
@@ -73,4 +73,4 @@ class PostStore {
   // }
 }
 
-export const store = new PostStore();
+export const store = new PostStore()

@@ -1,12 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import { Header } from '@/shared/ui/layouts/main/Header.tsx';
-import { ErrorToast } from '@/shared/ui/ErrorToast';
+import { Header } from '@/shared/ui/layouts/main/Header.tsx'
+import { ErrorToast } from '@/shared/ui/ErrorToast'
 
 const MainLayout = () => {
   return (
     <div className="container position-relative">
       <div className="row">
-
         <div className="col-12">
           <Header />
         </div>
@@ -23,7 +22,7 @@ const MainLayout = () => {
           <Outlet />
         </div>
       </div>
-      <ErrorToast message="Test message" show={true}/>
+      <ErrorToast message="Test message" show={true} />
     </div>
   )
 }
