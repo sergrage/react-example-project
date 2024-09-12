@@ -1,45 +1,86 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FC, MouseEvent, useEffect, useRef, useState } from 'react'
+import styles from './styles.module.scss'
+import { uploadFile } from '../../../../shared/api/storage-client'
 import { createPost } from '../../../../shared/api/posts'
 
-import styles from './styles.module.scss'
+type imageValidation = {
+  msg: string,
+  valid: boolean
+}
 
-export const PostForm = () => {
+type PropsType = {
+  getPostsList: () => void
+}
+
+export const PostForm: FC<PropsType> = ({ getPostsList }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [title, setTiltle] = useState<string>('')
   const [post, setPost] = useState<string>('')
-  // const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [formDisabled, setFormDisabled] = useState<boolean>(true)
-  // const [imageIsGood, setImageIsGood] = useState<boolean>(true);
-
+  const [imageValidation, setImageValidation] = useState<imageValidation>({
+    msg: '',
+    valid: true
+  });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    if (title.length > 5 && post.length > 10) {
+    if (title.length > 5 && post.length > 10 && imageValidation.valid && imageValidation.msg.length > 0) {
       setFormDisabled(false)
     } else {
       setFormDisabled(true)
     }
-  }, [title, post])
+  }, [title, post, imageValidation])
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault()
-    createPost({
-      id: 3,
-      title: 'title3',
-      post: 'description3',
-      image: 'image3',
-      created_at: Date.now(),
-      updated_at: null,
-    })
+    event.preventDefault();
+
+    if (file) {
+      uploadFile(file).then((fileName) => {
+        createPost({
+          id: 3,
+          title: title.trim(),
+          post: post.trim(),
+          image: fileName,
+          created_at: Date.now(),
+          updated_at: null,
+        })
+      }).then(() => {
+        getPostsList();
+        setImagePreview(null);
+        setTiltle('');
+        setPost('');
+        setFile(null);
+        setImageValidation({
+          msg: '',
+          valid: true
+        })
+        if(fileInputRef.current && fileInputRef.current.value) {
+          fileInputRef.current.value = '';
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
   }
 
   const addImage = (event: ChangeEvent<HTMLInputElement>) => {
-    // const file = event.target.files[0];
-    // console.log(file);
+    setImageValidation({
+      msg: '',
+      valid: true
+    })
+    if (!event.target.files) return;
 
-    // if(file.type.startsWith('image/')){
+    const file = event.target.files[0];
 
-    // } else {
-
-    // }
+    if (file.type.startsWith('image/')) {
+      setFile(file);
+    } else {
+      setImageValidation({
+        msg: 'Вы пытаетесь загрузить не изображение',
+        valid: false
+      })
+      return;
+    }
     return new Promise((resolve) => {
       const fileReader = new FileReader()
       if (event.target.files) {
@@ -50,9 +91,13 @@ export const PostForm = () => {
           img.onload = () => {
             console.log(img.width, img.height) // image is loaded; sizes are available
           }
-
+          
           setImagePreview(fileReader.result as string)
-          resolve(true)
+          setImageValidation({
+            msg: 'Это подойдет)',
+            valid: true
+          })
+          resolve(true);
         }
       }
     })
@@ -106,11 +151,15 @@ export const PostForm = () => {
       <div className="mb-3">
         <input
           type="file"
-          className="form-control"
+          ref={fileInputRef}
+          className={`form-control ${imageValidation.valid && imageValidation.msg.length > 0 ? 'is-valid' : 'is-invalid'}`}
           id="image"
           name="image"
           onChange={addImage}
         />
+        <div className={`${styles.feedback} ${imageValidation.valid ? 'valid-feedback' : 'invalid-feedback'}`}>
+          <span>{imageValidation.msg}</span>
+        </div>
       </div>
       <button
         type="submit"
