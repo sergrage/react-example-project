@@ -1,4 +1,4 @@
-import db from '../firebase-client'
+import firebase from '../firebase-client'
 import { PostType } from './model'
 import {
   collection,
@@ -11,21 +11,21 @@ import {
 } from 'firebase/firestore'
 
 export const getPosts = async () => {
-  return await getDocs(collection(db, 'posts'))
+  return await getDocs(collection(firebase.db, 'posts'))
 }
 
 export const createPost = async (post: PostType) => {
-  await addDoc(collection(db, 'posts'), post)
+  await addDoc(collection(firebase.db, 'posts'), post)
 }
 
 export const getPostById = async (id: string) => {
-  return await getDoc(doc(db, 'posts', id))
+  return await getDoc(doc(firebase.db, 'posts', id))
 }
 
 export const updatePost = async (id: string, data: PostType) => {
-  await updateDoc(doc(db, 'posts', id), data)
+  await updateDoc(doc(firebase.db, 'posts', id), data)
 }
 
 export const deletePost = async (id: string) => {
-  await deleteDoc(doc(db, 'posts', id))
+  await deleteDoc(doc(firebase.db, 'posts', id))
 }

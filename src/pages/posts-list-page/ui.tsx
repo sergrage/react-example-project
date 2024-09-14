@@ -16,7 +16,7 @@ export const PostsListPage = observer(() => {
     <>
       <h2>Main Page</h2>
 
-      <PostForm getPostsList={getPostsList}/>
+      <PostForm getPostsList={getPostsList} />
 
       <hr />
 

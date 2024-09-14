@@ -5,26 +5,31 @@ import { createPost } from '../../../../shared/api/posts'
 
 type imageValidation = {
   msg: string,
-  valid: boolean
+  valid: boolean,
 }
 
 type PropsType = {
-  getPostsList: () => void
+  getPostsList: () => void,
 }
 
 export const PostForm: FC<PropsType> = ({ getPostsList }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [title, setTiltle] = useState<string>('')
   const [post, setPost] = useState<string>('')
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null)
   const [formDisabled, setFormDisabled] = useState<boolean>(true)
   const [imageValidation, setImageValidation] = useState<imageValidation>({
     msg: '',
-    valid: true
-  });
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    valid: true,
+  })
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   useEffect(() => {
-    if (title.length > 5 && post.length > 10 && imageValidation.valid && imageValidation.msg.length > 0) {
+    if (
+      title.length > 5 &&
+      post.length > 10 &&
+      imageValidation.valid &&
+      imageValidation.msg.length > 0
+    ) {
       setFormDisabled(false)
     } else {
       setFormDisabled(true)
@@ -32,54 +37,57 @@ export const PostForm: FC<PropsType> = ({ getPostsList }) => {
   }, [title, post, imageValidation])
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (file) {
-      uploadFile(file).then((fileName) => {
-        createPost({
-          id: 3,
-          title: title.trim(),
-          post: post.trim(),
-          image: fileName,
-          created_at: Date.now(),
-          updated_at: null,
+      uploadFile(file)
+        .then((fileName) => {
+          createPost({
+            id: 3,
+            title: title.trim(),
+            post: post.trim(),
+            image: fileName,
+            created_at: Date.now(),
+            updated_at: null,
+          })
         })
-      }).then(() => {
-        getPostsList();
-        setImagePreview(null);
-        setTiltle('');
-        setPost('');
-        setFile(null);
-        setImageValidation({
-          msg: '',
-          valid: true
+        .then(() => {
+          getPostsList()
+          setImagePreview(null)
+          setTiltle('')
+          setPost('')
+          setFile(null)
+          setImageValidation({
+            msg: '',
+            valid: true,
+          })
+          if (fileInputRef.current && fileInputRef.current.value) {
+            fileInputRef.current.value = ''
+          }
         })
-        if(fileInputRef.current && fileInputRef.current.value) {
-          fileInputRef.current.value = '';
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
   const addImage = (event: ChangeEvent<HTMLInputElement>) => {
     setImageValidation({
       msg: '',
-      valid: true
+      valid: true,
     })
-    if (!event.target.files) return;
+    if (!event.target.files) return
 
-    const file = event.target.files[0];
+    const file = event.target.files[0]
 
     if (file.type.startsWith('image/')) {
-      setFile(file);
+      setFile(file)
     } else {
       setImageValidation({
         msg: 'Вы пытаетесь загрузить не изображение',
-        valid: false
+        valid: false,
       })
-      return;
+      return
     }
     return new Promise((resolve) => {
       const fileReader = new FileReader()
@@ -91,13 +99,13 @@ export const PostForm: FC<PropsType> = ({ getPostsList }) => {
           img.onload = () => {
             console.log(img.width, img.height) // image is loaded; sizes are available
           }
-          
+
           setImagePreview(fileReader.result as string)
           setImageValidation({
             msg: 'Это подойдет)',
-            valid: true
+            valid: true,
           })
-          resolve(true);
+          resolve(true)
         }
       }
     })
@@ -157,7 +165,9 @@ export const PostForm: FC<PropsType> = ({ getPostsList }) => {
           name="image"
           onChange={addImage}
         />
-        <div className={`${styles.feedback} ${imageValidation.valid ? 'valid-feedback' : 'invalid-feedback'}`}>
+        <div
+          className={`${styles.feedback} ${imageValidation.valid ? 'valid-feedback' : 'invalid-feedback'}`}
+        >
           <span>{imageValidation.msg}</span>
         </div>
       </div>

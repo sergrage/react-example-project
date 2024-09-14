@@ -1,8 +1,14 @@
 import { Outlet } from 'react-router-dom'
 import { Header } from '@/shared/ui/layouts/main/Header.tsx'
 import { ErrorToast } from '@/shared/ui/ErrorToast'
+import LoginForm from './LoginForm'
+import { observer } from 'mobx-react-lite'
 
-const MainLayout = () => {
+import {store} from "@/app/auth/model";
+
+const MainLayout = observer (() => {
+  const isAunteficated = store.isAunteficated
+  
   return (
     <div className="container position-relative">
       <div className="row">
@@ -10,13 +16,10 @@ const MainLayout = () => {
           <Header />
         </div>
         <div className="col-2 mt-2">
-          <ul className="list-group">
-            <li className="list-group-item">An item</li>
-            <li className="list-group-item">A second item</li>
-            <li className="list-group-item">A third item</li>
-            <li className="list-group-item">A fourth item</li>
-            <li className="list-group-item">And a fifth one</li>
-          </ul>
+          
+           {isAunteficated ? 
+            <span>Вы зашли как : {store.user.email}</span>
+            : (<LoginForm />)}
         </div>
         <div className="col-10 mt-2">
           <Outlet />
@@ -26,5 +29,6 @@ const MainLayout = () => {
     </div>
   )
 }
+)
 
 export default MainLayout

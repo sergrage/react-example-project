@@ -1,3 +1,8 @@
 # React + TypeScript + Vite
 
-# FSD + Firebase + Mobx
+# FSD + Mobx
+
+# Firebase
+#     Firestore Database
+#     Storage
+#     Authentication

@@ -16,7 +16,7 @@ export default defineConfig({
         find: '@',
         replacement: fileURLToPath(new URL('./src', import.meta.url)),
       },
-      { find: '$', replacement: resolve(__dirname, 'node_modules') },
+      { find: '@node_modules', replacement: resolve(__dirname, 'node_modules') },
     ],
   },
 })
